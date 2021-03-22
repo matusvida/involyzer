@@ -12,7 +12,7 @@ paths:
   /invoices/{id}:
     get:
       tags:
-        - invoice
+      - invoice
       summary: "Retrieves invoice by ID"
       operationId: "getInvoiceById"
       parameters:
@@ -33,7 +33,7 @@ paths:
   /invoices/:
     get:
       tags:
-        - invoice
+      - invoice
       summary: "Retrieves list of invoices"
       operationId: "getInvoiceList"
       responses:
@@ -46,7 +46,7 @@ paths:
   /invoice/:
     post:
       tags:
-        - invoice
+      - invoice
       summary: "Creates new invoice"
       operationId: "createInvoice"
       requestBody:
@@ -71,6 +71,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubjectListRes'
+  /subject/:
+    post:
+      tags:
+      - subject
+      summary: "Creates new subject"
+      operationId: "createSubject"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubjectReq'
+      responses:
+        201:
+          description: "Created"
 
 components:
   schemas:
@@ -163,6 +177,27 @@ components:
         $ref: '#/components/schemas/SubjectRes'
 
     SubjectRes:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dic:
+          type: string
+        ico:
+          type: string
+        icDph:
+          type: string
+        isDphPurchaser:
+          type: boolean
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        personalInfo:
+          type: object
+          $ref: '#/components/schemas/PersonalInfo'
+
+    SubjectReq:
       type: object
       properties:
         id:
