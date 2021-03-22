@@ -1,12 +1,12 @@
-package sk.myproject.involyzer;
+package sk.myproject.faktoorka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Involyzer {
+public class Faktoorka {
 
     public static void main(String[] args) {
-        SpringApplication.run(Involyzer.class, args);
+        SpringApplication.run(Faktoorka.class, args);
     }
 }

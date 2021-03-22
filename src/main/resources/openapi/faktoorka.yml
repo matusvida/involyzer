@@ -1,0 +1,259 @@
+openapi: "3.0.1"
+info:
+  description: "Faktoorka specification"
+  version: "1.0"
+  title: "Faktoorka Specification"
+tags:
+- name: invoice
+servers:
+- url: http://localhost:8080/
+  description: "localhost"
+paths:
+  /invoices/{id}:
+    get:
+      tags:
+        - invoice
+      summary: "Retrieves invoice by ID"
+      operationId: "getInvoiceById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "retrieves invoice by id"
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Retrieves invoice by id"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceRes'
+  /invoices/:
+    get:
+      tags:
+        - invoice
+      summary: "Retrieves list of invoices"
+      operationId: "getInvoiceList"
+      responses:
+        200:
+          description: "Retrieves list of invoices"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceListRes'
+  /invoice/:
+    post:
+      tags:
+        - invoice
+      summary: "Creates new invoice"
+      operationId: "createInvoice"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceReq'
+      responses:
+        201:
+          description: "Created"
+
+  /subjects/:
+    get:
+      tags:
+      - subject
+      summary: "Retrieves list of subjects"
+      operationId: "getSubjectList"
+      responses:
+        200:
+          description: "Retrieves list of subjects"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectListRes'
+
+components:
+  schemas:
+    InvoiceReq:
+      type: object
+      properties:
+        dueDate:
+          type: string
+          format: date
+        issueDate:
+          type: string
+          format: date
+        month:
+          type: string
+          format: date
+        pricePerUnit:
+          type: integer
+          format: int32
+        quantity:
+          type: integer
+          format: int32
+        service:
+          type: string
+        unit:
+          type: string
+        vat:
+          type: integer
+          format: int32
+        purchaser:
+          type: object
+          $ref: '#/components/schemas/Purchaser'
+        sender:
+          type: object
+          $ref: '#/components/schemas/Sender'
+    InvoiceRes:
+      type: "object"
+      required:
+      - "id"
+      - "month"
+      - "service"
+      - "quantity"
+      - "unit"
+      properties:
+        id:
+          type: integer
+          format: int64
+        dueDate:
+          type: string
+          format: date
+        issueDate:
+          type: string
+          format: date
+        month:
+          type: string
+          format: date
+        pricePerUnit:
+          type: integer
+          format: int32
+        quantity:
+          type: integer
+          format: int32
+        service:
+          type: "string"
+        total:
+          type: integer
+          format: int64
+        totalExcVat:
+          type: integer
+          format: int64
+        unit:
+          type: "string"
+        vat:
+          type: integer
+          format: int32
+        purchaser:
+          type: object
+          $ref: '#/components/schemas/Purchaser'
+        sender:
+          type: object
+          $ref: '#/components/schemas/Sender'
+
+    InvoiceListRes:
+      type: array
+      items:
+        $ref: '#/components/schemas/InvoiceRes'
+
+    SubjectListRes:
+      type: array
+      items:
+        $ref: '#/components/schemas/SubjectRes'
+
+    SubjectRes:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dic:
+          type: string
+        ico:
+          type: string
+        icDph:
+          type: string
+        isDphPurchaser:
+          type: boolean
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        personalInfo:
+          type: object
+          $ref: '#/components/schemas/PersonalInfo'
+
+    Purchaser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dic:
+          type: string
+        ico:
+          type: string
+        icDph:
+          type: string
+        isDphPurchaser:
+          type: boolean
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        personalInfo:
+          type: object
+          $ref: '#/components/schemas/PersonalInfo'
+    Sender:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        dic:
+          type: string
+        ico:
+          type: string
+        icDph:
+          type: string
+        isDphPurchaser:
+          type: boolean
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        personalInfo:
+          type: object
+          $ref: '#/components/schemas/PersonalInfo'
+    Address:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalNumber:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+    PersonalInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accountNumber:
+          type: string
+        bank:
+          type: string
+        email:
+          type: string
+        iban:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
