@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sk.myproject.faktoorka.api.model.Purchaser;
 import sk.myproject.faktoorka.api.model.Sender;
+import sk.myproject.faktoorka.api.model.SubjectReq;
 import sk.myproject.faktoorka.api.model.SubjectRes;
 import sk.myproject.faktoorka.entities.Subject;
 
@@ -14,6 +15,18 @@ public class SubjectMapper {
 
     private final AddressMapper addressMapper;
     private final PersonalInfoMapper personalInfoMapper;
+
+    public Subject toSubjectEntity(SubjectReq subjectReq) {
+        Subject subject = new Subject();
+        subject.setDic(subjectReq.getDic());
+        subject.setIcDph(subjectReq.getIcDph());
+        subject.setIco(subjectReq.getIco());
+        subject.setIsDphPurchaser(subjectReq.getIsDphPurchaser());
+        subject.setAddress(addressMapper.toEntityAddress(subjectReq.getAddress()));
+        subject.setPersonalInfo(personalInfoMapper.toEntityPersonalInfo(subjectReq.getPersonalInfo()));
+
+        return subject;
+    }
 
     Subject toSubjectEntity(Purchaser purchaser) {
         Subject subject = new Subject();
