@@ -16,6 +16,7 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String name;
     @Basic
     @Temporal(TemporalType.DATE)
     private Date month;

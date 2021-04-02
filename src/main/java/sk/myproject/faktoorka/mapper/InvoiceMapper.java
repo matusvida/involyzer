@@ -19,6 +19,7 @@ public class InvoiceMapper {
     public Invoice toInvoice(InvoiceReq req) {
         Invoice invoice = new Invoice();
 
+        invoice.setName(req.getName());
         invoice.setDueDate(Date.valueOf(req.getDueDate()));
         invoice.setIssueDate(Date.valueOf(req.getIssueDate()));
         invoice.setMonth(Date.valueOf(req.getMonth()));
@@ -40,6 +41,7 @@ public class InvoiceMapper {
     public InvoiceRes toInvoiceRes(Invoice invoice) {
         InvoiceRes invoiceRes = new InvoiceRes();
 
+        invoiceRes.setName(invoice.getName());
         invoiceRes.setDueDate(LocalDate.parse(invoice.getDueDate().toString()));
         invoiceRes.setMonth(LocalDate.parse(invoice.getMonth().toString()));
         invoiceRes.setIssueDate(LocalDate.parse(invoice.getIssueDate().toString()));

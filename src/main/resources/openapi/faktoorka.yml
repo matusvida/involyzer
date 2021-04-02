@@ -91,6 +91,8 @@ components:
     InvoiceReq:
       type: object
       properties:
+        name:
+          type: string
         dueDate:
           type: string
           format: date
@@ -131,6 +133,8 @@ components:
         id:
           type: integer
           format: int64
+        name:
+          type: string
         dueDate:
           type: string
           format: date
