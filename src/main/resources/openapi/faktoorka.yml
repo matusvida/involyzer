@@ -4,25 +4,25 @@ info:
   version: "1.0"
   title: "Faktoorka Specification"
 tags:
-- name: invoice
+  - name: invoice
 servers:
-- url: http://localhost:8080/
-  description: "localhost"
+  - url: http://localhost:8080/
+    description: "localhost"
 paths:
   /invoices/{id}:
     get:
       tags:
-      - invoice
+        - invoice
       summary: "Retrieves invoice by ID"
       operationId: "getInvoiceById"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "retrieves invoice by id"
-        required: true
-        schema:
-          type: "integer"
-          format: "int64"
+        - name: "id"
+          in: "path"
+          description: "retrieves invoice by id"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
       responses:
         200:
           description: "Retrieves invoice by id"
@@ -33,7 +33,7 @@ paths:
   /invoices/:
     get:
       tags:
-      - invoice
+        - invoice
       summary: "Retrieves list of invoices"
       operationId: "getInvoiceList"
       responses:
@@ -46,7 +46,7 @@ paths:
   /invoice/:
     post:
       tags:
-      - invoice
+        - invoice
       summary: "Creates new invoice"
       operationId: "createInvoice"
       requestBody:
@@ -61,7 +61,7 @@ paths:
   /subjects/:
     get:
       tags:
-      - subject
+        - subject
       summary: "Retrieves list of subjects"
       operationId: "getSubjectList"
       responses:
@@ -74,7 +74,7 @@ paths:
   /subject/:
     post:
       tags:
-      - subject
+        - subject
       summary: "Creates new subject"
       operationId: "createSubject"
       requestBody:
@@ -108,8 +108,10 @@ components:
         quantity:
           type: integer
           format: int32
-        service:
-          type: string
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
         unit:
           type: string
         vat:
@@ -124,11 +126,11 @@ components:
     InvoiceRes:
       type: "object"
       required:
-      - "id"
-      - "month"
-      - "service"
-      - "quantity"
-      - "unit"
+        - "id"
+        - "month"
+        - "service"
+        - "quantity"
+        - "unit"
       properties:
         id:
           type: integer
@@ -150,8 +152,10 @@ components:
         quantity:
           type: integer
           format: int32
-        service:
-          type: "string"
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/Service'
         total:
           type: integer
           format: int64
@@ -296,3 +300,23 @@ components:
           type: string
         website:
           type: string
+    Service:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        serviceName:
+          type: string
+        quantity:
+          type: number
+        unit:
+          type: string
+        pricePerUnit:
+          type: number
+        vat:
+          type: number
+        totalExclVat:
+          type: number
+        totalWithVat:
+          type: number

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class InvoiceMapper {
 
     private final SubjectMapper subjectMapper;
+    private final ServiceMapper serviceMapper;
 
     public Invoice toInvoice(InvoiceReq req) {
         Invoice invoice = new Invoice();
@@ -23,12 +24,12 @@ public class InvoiceMapper {
         invoice.setDueDate(Date.valueOf(req.getDueDate()));
         invoice.setIssueDate(Date.valueOf(req.getIssueDate()));
         invoice.setMonth(Date.valueOf(req.getMonth()));
-        invoice.setPricePerUnit(req.getPricePerUnit());
-        invoice.setQuantity(req.getQuantity());
-        invoice.setService(req.getService());
-
-        invoice.setUnit(req.getUnit());
-        invoice.setVat(req.getVat());
+//        invoice.setPricePerUnit(req.getPricePerUnit());
+//        invoice.setQuantity(req.getQuantity());
+//        invoice.setService(req.getService());
+//
+//        invoice.setUnit(req.getUnit());
+//        invoice.setVat(req.getVat());
 
         invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
         invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));
@@ -45,13 +46,13 @@ public class InvoiceMapper {
         invoiceRes.setDueDate(LocalDate.parse(invoice.getDueDate().toString()));
         invoiceRes.setMonth(LocalDate.parse(invoice.getMonth().toString()));
         invoiceRes.setIssueDate(LocalDate.parse(invoice.getIssueDate().toString()));
-        invoiceRes.setPricePerUnit(invoice.getPricePerUnit());
-        invoiceRes.setQuantity(invoice.getQuantity());
-        invoiceRes.setService(invoice.getService());
-        invoiceRes.setTotal(invoice.getTotal().longValue());
-        invoiceRes.setTotalExcVat(invoice.getTotalExclVat().longValue());
-        invoiceRes.setUnit(invoice.getUnit());
-        invoiceRes.setVat(invoice.getVat());
+//        invoiceRes.setPricePerUnit(invoice.getPricePerUnit());
+//        invoiceRes.setQuantity(invoice.getQuantity());
+//        invoiceRes.setService(invoice.getService());
+//        invoiceRes.setTotal(invoice.getTotal().longValue());
+//        invoiceRes.setTotalExcVat(invoice.getTotalExclVat().longValue());
+//        invoiceRes.setUnit(invoice.getUnit());
+//        invoiceRes.setVat(invoice.getVat());
         invoiceRes.setPurchaser(subjectMapper.toPurchaser(invoice.getPurchaser()));
         invoiceRes.setSender(subjectMapper.toSender(invoice.getSender()));
 

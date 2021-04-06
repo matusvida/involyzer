@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -20,14 +21,9 @@ public class Invoice {
     @Basic
     @Temporal(TemporalType.DATE)
     private Date month;
-    private String service;
-    private Integer quantity;
-    private String unit;
-    @Column(name = "price_per_unit")
-    private Integer pricePerUnit;
     @Column(name = "total_excl_vat")
     private BigDecimal totalExclVat;
-    private Integer vat;
+    private Integer vatTotal;
     private BigDecimal total;
     @Basic
     @Temporal(TemporalType.DATE)
@@ -43,4 +39,10 @@ public class Invoice {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "purchaser_id", referencedColumnName = "id")
     private Subject purchaser;
+
+    @ManyToMany(cascade =  CascadeType.ALL)
+    @JoinTable(name = "invoice_service",
+        joinColumns = {@JoinColumn(name = "invoice_id")},
+        inverseJoinColumns = {@JoinColumn(name = "id")} )
+    private Set<Service> services;
 }

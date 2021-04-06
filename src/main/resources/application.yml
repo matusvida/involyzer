@@ -11,7 +11,7 @@ spring:
       schema: faktoorka
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:

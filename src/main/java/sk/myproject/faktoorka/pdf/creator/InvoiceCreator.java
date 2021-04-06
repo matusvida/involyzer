@@ -134,7 +134,7 @@ public class InvoiceCreator {
         sumWithVatHeaderCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         sumWithVatHeaderCell.setFixedHeight(15f);
 
-        PdfPCell serviceCell = new PdfPCell(new Paragraph(invoice.getService(), new Font(Font.FontFamily.UNDEFINED, 7f)));
+        PdfPCell serviceCell = new PdfPCell(new Paragraph("invoice.getService()", new Font(Font.FontFamily.UNDEFINED, 7f)));
         serviceCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         serviceCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         serviceCell.setFixedHeight(15f);
