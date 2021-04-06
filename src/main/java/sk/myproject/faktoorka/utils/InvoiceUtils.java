@@ -2,10 +2,12 @@ package sk.myproject.faktoorka.utils;
 
 import lombok.experimental.UtilityClass;
 import sk.myproject.faktoorka.api.model.InvoiceReq;
+import sk.myproject.faktoorka.api.model.Service;
 import sk.myproject.faktoorka.entities.Invoice;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Set;
 
 @UtilityClass
 public class InvoiceUtils {
@@ -30,5 +32,9 @@ public class InvoiceUtils {
             invoice.setTotal(BigDecimal.valueOf(req.getPricePerUnit() * (req.getQuantity())));
             invoice.setTotalExclVat(BigDecimal.valueOf(req.getPricePerUnit() * (req.getQuantity())));
         }
+    }
+
+    public void calculateTotalPrice(Set<Service> services) {
+
     }
 }

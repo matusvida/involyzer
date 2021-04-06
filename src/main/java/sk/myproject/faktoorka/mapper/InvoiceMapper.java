@@ -7,8 +7,10 @@ import sk.myproject.faktoorka.api.model.InvoiceRes;
 import sk.myproject.faktoorka.entities.Invoice;
 import sk.myproject.faktoorka.utils.InvoiceUtils;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -24,13 +26,15 @@ public class InvoiceMapper {
         invoice.setDueDate(Date.valueOf(req.getDueDate()));
         invoice.setIssueDate(Date.valueOf(req.getIssueDate()));
         invoice.setMonth(Date.valueOf(req.getMonth()));
-//        invoice.setPricePerUnit(req.getPricePerUnit());
-//        invoice.setQuantity(req.getQuantity());
-//        invoice.setService(req.getService());
-//
-//        invoice.setUnit(req.getUnit());
-//        invoice.setVat(req.getVat());
 
+        invoice.setTotalExclVat(BigDecimal.ONE);
+        invoice.setTotal(BigDecimal.ONE);
+        invoice.setVatTotal(1);
+
+        invoice.setServices(req.getServices()
+                .parallelStream()
+                .map(serviceMapper::toEntityService)
+                .collect(Collectors.toSet()));
         invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
         invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));
 
