@@ -19,7 +19,7 @@ public class InvoiceUtils {
      * @param invoice {@link Invoice} entity.
      * @param req     {@link InvoiceReq} request object.
      */
-    public void countTotal(Invoice invoice, InvoiceReq req) {
+    public void countTotalForService(Invoice invoice, InvoiceReq req) {
         if ((req.getVat() != null && req.getVat() > 0)) {
             // PricePerUnit * Quantity
             invoice.setTotalExclVat(BigDecimal.valueOf(req.getPricePerUnit() * req.getQuantity()));

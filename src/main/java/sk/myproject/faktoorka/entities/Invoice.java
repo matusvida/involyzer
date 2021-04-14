@@ -23,7 +23,7 @@ public class Invoice {
     private Date month;
     @Column(name = "total_excl_vat")
     private BigDecimal totalExclVat;
-    private Integer vatTotal;
+    private BigDecimal vatTotal;
     private BigDecimal total;
     @Basic
     @Temporal(TemporalType.DATE)

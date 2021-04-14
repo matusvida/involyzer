@@ -44,7 +44,7 @@ public class InvoiceService {
     }
 
     public void createInvoice(InvoiceReq request) {
-        Invoice invoice = invoiceMapper.toInvoice(request);
+        Invoice invoice = invoiceMapper.toEntityInvoice(request);
         try {
             invoiceCreator.createInvoicePdf(invoice);
         } catch (FileNotFoundException | DocumentException e) {

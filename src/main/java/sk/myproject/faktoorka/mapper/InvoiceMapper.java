@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sk.myproject.faktoorka.api.model.InvoiceReq;
 import sk.myproject.faktoorka.api.model.InvoiceRes;
+import sk.myproject.faktoorka.api.model.Service;
 import sk.myproject.faktoorka.entities.Invoice;
 import sk.myproject.faktoorka.utils.InvoiceUtils;
 
@@ -16,54 +17,58 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InvoiceMapper {
 
-    private final SubjectMapper subjectMapper;
-    private final ServiceMapper serviceMapper;
+	private final SubjectMapper subjectMapper;
+	private final ServiceMapper serviceMapper;
 
-    public Invoice toInvoice(InvoiceReq req) {
-        Invoice invoice = new Invoice();
+	public Invoice toEntityInvoice(InvoiceReq req) {
+		Invoice invoice = new Invoice();
 
-        invoice.setName(req.getName());
-        invoice.setDueDate(Date.valueOf(req.getDueDate()));
-        invoice.setIssueDate(Date.valueOf(req.getIssueDate()));
-        invoice.setMonth(Date.valueOf(req.getMonth()));
+		invoice.setName(req.getName());
+		invoice.setDueDate(Date.valueOf(req.getDueDate()));
+		invoice.setIssueDate(Date.valueOf(req.getIssueDate()));
+		invoice.setMonth(Date.valueOf(req.getMonth()));
 
-        invoice.setTotalExclVat(BigDecimal.ONE);
-        invoice.setTotal(BigDecimal.ONE);
-        invoice.setVatTotal(1);
+		invoice.setServices(req.getServices()
+			.parallelStream()
+			.map(serviceMapper::toEntityService)
+			.collect(Collectors.toSet()));
 
-        invoice.setServices(req.getServices()
-                .parallelStream()
-                .map(serviceMapper::toEntityService)
-                .collect(Collectors.toSet()));
-        invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
-        invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));
+		invoice.setTotalExclVat(req.getServices()
+			.stream()
+			.map(service -> service.getTotalExclVat().multiply(service.getQuantity()))
+			.reduce(BigDecimal.ZERO, BigDecimal::add));
+		invoice.setTotal(invoice.getServices()
+			.stream()
+			.map(service -> service.getTotalWithVat()));
+		invoice.setVatTotal(BigDecimal.ONE);
+		InvoiceUtils.countTotalForService(invoice, req);
 
-        InvoiceUtils.countTotal(invoice, req);
+		invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
+		invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));
 
-        return invoice;
-    }
+		return invoice;
+	}
 
-    public InvoiceRes toInvoiceRes(Invoice invoice) {
-        InvoiceRes invoiceRes = new InvoiceRes();
+	public InvoiceRes toInvoiceRes(Invoice invoice) {
+		InvoiceRes invoiceRes = new InvoiceRes();
 
-        invoiceRes.setName(invoice.getName());
-        invoiceRes.setDueDate(LocalDate.parse(invoice.getDueDate().toString()));
-        invoiceRes.setMonth(LocalDate.parse(invoice.getMonth().toString()));
-        invoiceRes.setIssueDate(LocalDate.parse(invoice.getIssueDate().toString()));
-//        invoiceRes.setPricePerUnit(invoice.getPricePerUnit());
-//        invoiceRes.setQuantity(invoice.getQuantity());
-//        invoiceRes.setService(invoice.getService());
-//        invoiceRes.setTotal(invoice.getTotal().longValue());
-//        invoiceRes.setTotalExcVat(invoice.getTotalExclVat().longValue());
-//        invoiceRes.setUnit(invoice.getUnit());
-//        invoiceRes.setVat(invoice.getVat());
-        invoiceRes.setPurchaser(subjectMapper.toPurchaser(invoice.getPurchaser()));
-        invoiceRes.setSender(subjectMapper.toSender(invoice.getSender()));
+		invoiceRes.setName(invoice.getName());
+		invoiceRes.setDueDate(LocalDate.parse(invoice.getDueDate().toString()));
+		invoiceRes.setMonth(LocalDate.parse(invoice.getMonth().toString()));
+		invoiceRes.setIssueDate(LocalDate.parse(invoice.getIssueDate().toString()));
 
-        return invoiceRes;
-    }
+		invoiceRes.setServices(invoice.getServices()
+			.parallelStream()
+			.map(serviceMapper::toModelService)
+			.collect(Collectors.toList()));
+		invoiceRes.setTotal(invoice.getTotal());
+		invoiceRes.setTotalExcVat(invoice.getTotalExclVat());
+		invoiceRes.setVat(invoice.getVatTotal());
+		invoiceRes.setPurchaser(subjectMapper.toPurchaser(invoice.getPurchaser()));
+		invoiceRes.setSender(subjectMapper.toSender(invoice.getSender()));
 
-
+		return invoiceRes;
+	}
 
 
 }

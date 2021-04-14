@@ -147,28 +147,17 @@ components:
         month:
           type: string
           format: date
-        pricePerUnit:
-          type: integer
-          format: int32
-        quantity:
-          type: integer
-          format: int32
         services:
           type: array
           uniqueItems: true
           items:
             $ref: '#/components/schemas/Service'
         total:
-          type: integer
-          format: int64
+          type: number
         totalExcVat:
-          type: integer
-          format: int64
-        unit:
-          type: "string"
+          type: number
         vat:
-          type: integer
-          format: int32
+          type: number
         purchaser:
           type: object
           $ref: '#/components/schemas/Purchaser'
@@ -317,8 +306,7 @@ components:
         pricePerUnit:
           type: number
         vat:
-          type: integer
-          format: int32
+          type: number
         totalExclVat:
           type: number
         totalWithVat:

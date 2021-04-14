@@ -31,7 +31,7 @@ public class Service {
 	private BigDecimal pricePerUnit;
 	@Column(name = "total_excl_vat")
 	private BigDecimal totalExclVat;
-	private Integer vat;
+	private BigDecimal vat;
 	private BigDecimal totalWithVat;
 
 	@ManyToMany(mappedBy = "services")
