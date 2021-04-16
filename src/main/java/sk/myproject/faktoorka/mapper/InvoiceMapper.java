@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sk.myproject.faktoorka.api.model.InvoiceReq;
 import sk.myproject.faktoorka.api.model.InvoiceRes;
-import sk.myproject.faktoorka.api.model.Service;
 import sk.myproject.faktoorka.entities.Invoice;
 import sk.myproject.faktoorka.utils.InvoiceUtils;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
@@ -33,15 +31,9 @@ public class InvoiceMapper {
 			.map(serviceMapper::toEntityService)
 			.collect(Collectors.toSet()));
 
-		invoice.setTotalExclVat(req.getServices()
-			.stream()
-			.map(service -> service.getTotalExclVat().multiply(service.getQuantity()))
-			.reduce(BigDecimal.ZERO, BigDecimal::add));
-		invoice.setTotal(invoice.getServices()
-			.stream()
-			.map(service -> service.getTotalWithVat()));
-		invoice.setVatTotal(BigDecimal.ONE);
-		InvoiceUtils.countTotalForService(invoice, req);
+		invoice.setVatTotal(InvoiceUtils.calculateTotalVat(invoice.getServices()));
+		invoice.setTotalExclVat(InvoiceUtils.calculateTotalPriceExtVat(invoice.getServices()));
+		invoice.setTotal(InvoiceUtils.calculateTotalPriceWithVat(invoice.getServices()));
 
 		invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
 		invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));

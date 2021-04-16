@@ -112,7 +112,7 @@ components:
           type: array
           uniqueItems: true
           items:
-            $ref: '#/components/schemas/Service'
+            $ref: '#/components/schemas/ServiceReq'
         unit:
           type: string
         vat:
@@ -151,7 +151,7 @@ components:
           type: array
           uniqueItems: true
           items:
-            $ref: '#/components/schemas/Service'
+            $ref: '#/components/schemas/ServiceRes'
         total:
           type: number
         totalExcVat:
@@ -291,7 +291,23 @@ components:
           type: string
         website:
           type: string
-    Service:
+    ServiceReq:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        serviceName:
+          type: string
+        quantity:
+          type: number
+        unit:
+          type: string
+        pricePerUnit:
+          type: number
+        vat:
+          type: number
+    ServiceRes:
       type: object
       properties:
         id:
