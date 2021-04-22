@@ -34,6 +34,7 @@ public class Service {
 	@Column(name = "total_excl_vat")
 	private BigDecimal totalExclVat;
 	private BigDecimal vat;
+	@Column(name = "total_with_vat")
 	private BigDecimal totalWithVat;
 
 	@ManyToMany(mappedBy = "services")

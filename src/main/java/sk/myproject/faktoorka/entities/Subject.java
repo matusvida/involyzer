@@ -14,10 +14,13 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String name;
     private String ico;
     private String dic;
+    @Column(name = "ic_dph")
     private String icDph;
-    private Boolean isDphPurchaser;
+    @Column(name = "is_vat_purchaser")
+    private Boolean isVatPurchaser;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "purchaser_address_id", referencedColumnName = "id")

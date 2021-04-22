@@ -44,6 +44,7 @@ public class InvoiceMapper {
 	public InvoiceRes toInvoiceRes(Invoice invoice) {
 		InvoiceRes invoiceRes = new InvoiceRes();
 
+		invoiceRes.setId(invoice.getId());
 		invoiceRes.setName(invoice.getName());
 		invoiceRes.setDueDate(LocalDate.parse(invoice.getDueDate().toString()));
 		invoiceRes.setMonth(LocalDate.parse(invoice.getMonth().toString()));

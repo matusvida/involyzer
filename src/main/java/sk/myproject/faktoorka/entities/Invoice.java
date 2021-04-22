@@ -23,14 +23,19 @@ public class Invoice {
     private Date month;
     @Column(name = "total_excl_vat")
     private BigDecimal totalExclVat;
+    @Column(name = "vat_total")
     private BigDecimal vatTotal;
     private BigDecimal total;
     @Basic
     @Temporal(TemporalType.DATE)
+    @Column(name = "issue_date")
     private Date issueDate;
     @Temporal(TemporalType.DATE)
     @Basic
     private Date dueDate;
+    @Column(name = "pdf_invoice")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] pdfInvoice;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sender_id", referencedColumnName = "id")

@@ -18,10 +18,11 @@ public class SubjectMapper {
 
     public Subject toSubjectEntity(SubjectReq subjectReq) {
         Subject subject = new Subject();
+        subject.setName(subjectReq.getName());
         subject.setDic(subjectReq.getDic());
         subject.setIcDph(subjectReq.getIcDph());
         subject.setIco(subjectReq.getIco());
-        subject.setIsDphPurchaser(subjectReq.getIsDphPurchaser());
+        subject.setIsVatPurchaser(subjectReq.getIsDphPurchaser());
         subject.setAddress(addressMapper.toEntityAddress(subjectReq.getAddress()));
         subject.setPersonalInfo(personalInfoMapper.toEntityPersonalInfo(subjectReq.getPersonalInfo()));
 
@@ -30,10 +31,11 @@ public class SubjectMapper {
 
     Subject toSubjectEntity(Purchaser purchaser) {
         Subject subject = new Subject();
+        subject.setName(purchaser.getName());
         subject.setDic(purchaser.getDic());
         subject.setIcDph(purchaser.getIcDph());
         subject.setIco(purchaser.getIco());
-        subject.setIsDphPurchaser(purchaser.getIsDphPurchaser());
+        subject.setIsVatPurchaser(purchaser.getIsDphPurchaser());
         subject.setAddress(addressMapper.toEntityAddress(purchaser.getAddress()));
         subject.setPersonalInfo(personalInfoMapper.toEntityPersonalInfo(purchaser.getPersonalInfo()));
 
@@ -42,10 +44,11 @@ public class SubjectMapper {
 
     Subject toSubjectEntity(Sender sender) {
         Subject subject = new Subject();
+        subject.setName(sender.getName());
         subject.setDic(sender.getDic());
         subject.setIcDph(sender.getIcDph());
         subject.setIco(sender.getIco());
-        subject.setIsDphPurchaser(sender.getIsDphPurchaser());
+        subject.setIsVatPurchaser(sender.getIsDphPurchaser());
         subject.setAddress(addressMapper.toEntityAddress(sender.getAddress()));
         subject.setPersonalInfo(personalInfoMapper.toEntityPersonalInfo(sender.getPersonalInfo()));
 
@@ -54,11 +57,12 @@ public class SubjectMapper {
 
     public Purchaser toPurchaser(Subject subject) {
         Purchaser purchaser = new Purchaser();
+        purchaser.setName(subject.getName());
         purchaser.setDic(subject.getDic());
         purchaser.setIcDph(subject.getIcDph());
         purchaser.setIco(subject.getIco());
         purchaser.setId(subject.getId());
-        purchaser.setIsDphPurchaser(subject.getIsDphPurchaser());
+        purchaser.setIsDphPurchaser(subject.getIsVatPurchaser());
         purchaser.setAddress(addressMapper.fromEntityAddress(subject.getAddress()));
         purchaser.setPersonalInfo(personalInfoMapper.fromEntityPersonalInfo(subject.getPersonalInfo()));
 
@@ -67,11 +71,12 @@ public class SubjectMapper {
 
     public Sender toSender(Subject subject) {
         Sender sender = new Sender();
+        sender.setName(subject.getName());
         sender.setDic(subject.getDic());
         sender.setIcDph(subject.getIcDph());
         sender.setIco(subject.getIco());
         sender.setId(subject.getId());
-        sender.setIsDphPurchaser(subject.getIsDphPurchaser());
+        sender.setIsDphPurchaser(subject.getIsVatPurchaser());
         sender.setAddress(addressMapper.fromEntityAddress(subject.getAddress()));
         sender.setPersonalInfo(personalInfoMapper.fromEntityPersonalInfo(subject.getPersonalInfo()));
 
@@ -80,11 +85,12 @@ public class SubjectMapper {
     
     public SubjectRes toSubjectRes(Subject subject) {
         SubjectRes subjectRes = new SubjectRes();
+        subjectRes.setName(subject.getName());
         subjectRes.setDic(subject.getDic());
         subjectRes.setIcDph(subject.getIcDph());
         subjectRes.setIco(subject.getIco());
         subjectRes.setId(subject.getId());
-        subjectRes.setIsDphPurchaser(subject.getIsDphPurchaser());
+        subjectRes.setIsDphPurchaser(subject.getIsVatPurchaser());
         subjectRes.setAddress(addressMapper.fromEntityAddress(subject.getAddress()));
         subjectRes.setPersonalInfo(personalInfoMapper.fromEntityPersonalInfo(subject.getPersonalInfo()));
 
