@@ -1,10 +1,13 @@
 package sk.myproject.faktoorka.mapper;
 
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sk.myproject.faktoorka.api.model.InvoiceReq;
 import sk.myproject.faktoorka.api.model.InvoiceRes;
 import sk.myproject.faktoorka.entities.Invoice;
+import sk.myproject.faktoorka.errorhandling.InvoException;
+import sk.myproject.faktoorka.pdf.creator.InvoiceCreator;
 import sk.myproject.faktoorka.utils.InvoiceUtils;
 
 import java.sql.Date;
@@ -17,6 +20,7 @@ public class InvoiceMapper {
 
 	private final SubjectMapper subjectMapper;
 	private final ServiceMapper serviceMapper;
+	private final InvoiceCreator invoiceCreator;
 
 	public Invoice toEntityInvoice(InvoiceReq req) {
 		Invoice invoice = new Invoice();
@@ -37,6 +41,12 @@ public class InvoiceMapper {
 
 		invoice.setPurchaser(subjectMapper.toSubjectEntity(req.getPurchaser()));
 		invoice.setSender(subjectMapper.toSubjectEntity(req.getSender()));
+
+		try {
+			invoice.setPdfInvoice(invoiceCreator.createInvoicePdf(invoice));
+		} catch (DocumentException | InvoException e) {
+			e.printStackTrace(); //todo
+		}
 
 		return invoice;
 	}
@@ -62,6 +72,4 @@ public class InvoiceMapper {
 
 		return invoiceRes;
 	}
-
-
 }

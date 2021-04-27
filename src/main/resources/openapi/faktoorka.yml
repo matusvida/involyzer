@@ -30,6 +30,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvoiceRes'
+  /invoices/{id}/pdf:
+    get:
+      tags:
+        - invoice
+      summary: "Retrieves invoice by ID as PDF file"
+      operationId: "getInvoicePDFById"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "retrieves invoice PDF by id"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        200:
+          description: "Retrieves invoice PDF by id"
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
   /invoices/:
     get:
       tags:

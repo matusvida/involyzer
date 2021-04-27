@@ -1,6 +1,5 @@
 package sk.myproject.faktoorka.pdf.creator;
 
-import com.itextpdf.layout.border.Border;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import org.springframework.stereotype.Component;
@@ -8,17 +7,15 @@ import sk.myproject.faktoorka.entities.Invoice;
 import sk.myproject.faktoorka.entities.Service;
 import sk.myproject.faktoorka.errorhandling.InvoException;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 
 @Component
 public class InvoiceCreator {
 
-	public Document createInvoicePdf(Invoice invoice) throws FileNotFoundException, DocumentException, InvoException {
+	public byte[] createInvoicePdf(Invoice invoice) throws DocumentException, InvoException {
 		Document document = new Document();
-		PdfWriter pdfWriter = PdfWriter.getInstance(
-			document,
-			new FileOutputStream(String.format("%s_%s.pdf", invoice.getSender().getName(), invoice.getName())));
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		PdfWriter pdfWriter = PdfWriter.getInstance(document, byteArrayOutputStream);
 		document.open();
 
 		PdfPTable mainFrame = new PdfPTable(1);
@@ -45,7 +42,7 @@ public class InvoiceCreator {
 		document.add(mainFrame);
 		document.close();
 		pdfWriter.close();
-		return document;
+		return byteArrayOutputStream.toByteArray();
 	}
 
 	private PdfPTable createHeaderSection(Invoice invoice) {
