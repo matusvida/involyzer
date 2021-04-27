@@ -2,6 +2,8 @@ package sk.myproject.faktoorka.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import sk.myproject.faktoorka.api.model.InvoiceReq;
 import sk.myproject.faktoorka.api.model.InvoiceRes;
@@ -31,6 +33,14 @@ public class InvoiceService {
         return invoiceMapper.toInvoiceRes(invoice);
     }
 
+    public Resource getPdfInvoice(String id) throws InvoException {
+        Invoice invoice = invoiceRepo.findById(Long.valueOf(id)).orElse(null);
+        if (invoice == null) {
+            throw new InvoException(MessageFormat.format("Invoice with id: {} is null", id));
+        }
+        return new ByteArrayResource(invoice.getPdfInvoice());
+    }
+
     public List<InvoiceRes> getInvoices() {
         List<Invoice> invoices = invoiceRepo.findAll();
         return invoices
@@ -40,7 +50,7 @@ public class InvoiceService {
     }
 
     public void createInvoice(InvoiceReq request) {
-        Invoice invoice = invoiceMapper.toInvoice(request);
+        Invoice invoice = invoiceMapper.toEntityInvoice(request);
         invoiceRepo.saveAndFlush(invoice);
     }
 }

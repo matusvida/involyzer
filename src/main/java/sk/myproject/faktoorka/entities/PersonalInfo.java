@@ -18,5 +18,6 @@ public class PersonalInfo {
     private String website;
     private String bank;
     private String iban;
+    @Column(name = "account_number")
     private String accountNumber;
 }
