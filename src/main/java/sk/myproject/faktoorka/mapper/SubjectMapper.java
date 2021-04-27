@@ -82,7 +82,7 @@ public class SubjectMapper {
 
         return sender;
     }
-    
+
     public SubjectRes toSubjectRes(Subject subject) {
         SubjectRes subjectRes = new SubjectRes();
         subjectRes.setName(subject.getName());
